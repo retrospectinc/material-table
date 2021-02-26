@@ -5,11 +5,11 @@ import TableRow from "@material-ui/core/TableRow";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import DoubleScrollbar from "react-double-scrollbar";
 import * as React from "react";
+import equal from "fast-deep-equal";
 import { MTablePagination, MTableSteppedPagination } from "./components";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import DataManager from "./utils/data-manager";
 import { debounce } from "debounce";
-import _ from "lodash";
 import { withStyles } from "@material-ui/core";
 import * as CommonValues from "./utils/common-values";
 
@@ -125,7 +125,7 @@ export default class MaterialTable extends React.Component {
       const propClone = { ...prop };
       delete propClone.tableData;
       delete propClone.render;
-      return propClone;
+      return JSON.stringify(propClone);
     });
   }
 
@@ -137,12 +137,12 @@ export default class MaterialTable extends React.Component {
     const fixedPrevData = this.cleanProps(prevProps.data);
     const fixedPropsData = this.cleanProps(this.props.data);
 
-    let propsChanged = _.isEqual(fixedPrevColumns, fixedPropsColumns);
+    let propsChanged = !equal(fixedPrevColumns, fixedPropsColumns);
     propsChanged =
-      propsChanged || _.isEqual(prevProps.options, this.props.options);
+      propsChanged || !equal(prevProps.options, this.props.options);
 
     if (!this.isRemoteData()) {
-      propsChanged = propsChanged || _.isEqual(fixedPrevData, fixedPropsData);
+      propsChanged = propsChanged || !equal(fixedPrevData, fixedPropsData);
     }
 
     if (propsChanged) {

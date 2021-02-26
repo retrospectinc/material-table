@@ -49,10 +49,7 @@ export default class DataManager {
     this.selectedCount = 0;
     const oldtableData = this.data; // current data has info regarding what is open/being edited
     this.data = data.map((row, index) => {
-      const oldData =
-        oldtableData[index] && oldtableData[index] === row
-          ? oldtableData[index].tableData
-          : []; //if this row is in our old row, keep the tableData
+      const oldData = oldtableData[index] ? oldtableData[index].tableData : []; //if this row is in our old row, keep the tableData
       row.tableData = { ...row.tableData, ...oldData, id: index };
       if (row.tableData.checked) {
         this.selectedCount++;
