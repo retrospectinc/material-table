@@ -473,7 +473,7 @@ var DataManager = /*#__PURE__*/function () {
     key: "changeRowEditing",
     value: function changeRowEditing(rowData, mode) {
       if (rowData) {
-        rowData.tableData.editing = mode;
+        if (rowData.tableData) rowData.tableData.editing = mode;
 
         if (this.lastEditingRow && this.lastEditingRow.tableData && this.lastEditingRow != rowData) {
           this.lastEditingRow.tableData.editing = undefined;
